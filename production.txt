@@ -1,0 +1,2 @@
+# This branch is specifically to be kept stable at all times.
+# This branch is being used rather than master because *everyone* pushes to master. Including me.
