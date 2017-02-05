@@ -1,0 +1,5 @@
+# pycharm specific project files
+.idea
+
+# Ansible retry files
+.retry
