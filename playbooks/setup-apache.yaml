@@ -1,0 +1,42 @@
+---
+- hosts: labhost
+  user: myork
+  tasks:
+  - name: Configure the apache webserver
+    dnf:
+      name: '{{ item }}'
+      state: latest
+    become: True
+    notify: Restart HTTPd
+    with_items:
+    - httpd
+
+  - name: Start Firewalld
+    service:
+      name: firewalld
+      state: started
+      enabled: yes
+    become: True
+
+  - name: Configure the firewall
+    firewalld:
+      service: http
+      state: enabled
+      permanent: True
+      immediate: True
+    become: True
+
+
+  - name: Start HTTPd
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+    become: True
+
+  handlers:
+  - name: Restart HTTPd
+    service:
+      name: httpd
+      state: restarted
+    become: True

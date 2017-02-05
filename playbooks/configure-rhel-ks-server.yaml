@@ -1,0 +1,28 @@
+---
+- hosts: labhost
+  user: myork
+  vars:
+    isofile: '/home/myork/Downloads/rhel-server-7.2-x86_64-dvd.iso'
+    distroname: 'RHEL7.2'
+    httpdir: '/var/www/html/rpms/{{ distroname }}/'
+    ksdir: '/var/www/html/ks'
+    
+  tasks:
+  - name: Mount the iso file to /mnt
+    mount:
+      name: '/mnt'
+      src: '{{ isofile }}'
+      fstype: iso9660
+      opts: loop,ro
+      state: mounted
+    become: True
+
+  - name: Copy RPM's onto the web server
+    copy:
+      src: '/mnt/Packages/'
+      dest: '{{ httpdir }}'
+    become: True
+
+#  - name: Mount the iso file to /mnt
+#    command: mount -o loop,ro {{ isofile }} /mnt/
+#    become: True

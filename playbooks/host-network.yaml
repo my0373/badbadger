@@ -1,0 +1,21 @@
+---
+- hosts: labhost
+  remote_user: myork
+  vars:
+    wireless_up: '{{ ansible_wlan0.active }}'
+    lan_up: '{{ ansible_eth0.active }}'
+  tasks:
+  - name: Checking if wireless interface is up
+    debug:
+      msg: '{{ wireless_up }}'
+
+  - name: Checking if wired interface is up
+    debug:
+      msg: '{{ lan_up }}'
+
+  - name: Disable NetworkManager
+    service:
+      name: NetworkManager
+      state: stopped
+      enabled: no
+    become: yes
