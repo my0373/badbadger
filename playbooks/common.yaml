@@ -1,0 +1,26 @@
+---
+- hosts: labhost
+  user: myork
+  tasks:
+  - name: Update all packages on the system
+    dnf:
+      name: "*"
+      state: latest
+    become: True
+
+  - name: Install essential base packages
+    dnf:
+      name: '{{ item }}'
+      state: latest
+    become: True
+    with_items:
+    - vim
+    - tree
+    - git
+    - bind-utils
+    - ntp
+    - libselinux-python
+    - libsemanage-python
+    - openssh-server
+  
+
